@@ -18,7 +18,10 @@
 <script type="text/javascript" src="/js/root.js" defer></script>
 
 <div th:replace="~{fragments/header.html}"></div>
+<br>
 <div class="container">
+    <a type="button" class="btn btn-primary" th:href="@{/admin/line}">Добавить линию</a>
+    <br>
     <table id="datatable" class="table table-striped" style="width:100%">
         <thead>
         <tr>
@@ -33,7 +36,6 @@
         </thead>
     </table>
 </div>
-<button type="button" class="btn btn-secondary" onclick="addLine()">Добавить линию</button>
 <!-- Modal -->
 <div class="modal fade" id="modalMap" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
@@ -42,7 +44,7 @@
                 <h5 class="modal-title" id="modalLabel">Карта линии ВОЛС</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body"></div>
+            <div id="showMap" class="modal-body"></div>
             <!--<div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>-->

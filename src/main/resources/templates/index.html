@@ -3,42 +3,7 @@
         xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{fragments/head.html :: head}"></div>
 <body>
-<link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-        crossorigin=""
-/>
-<script
-        src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-        crossorigin="" defer></script>
 <div th:replace="~{fragments/header.html}"></div>
-<div id="map" style = "width: 900px; height: 580px"></div>
-<!-- кнопка для вызова функции -->
-<script>
-    // функция принимает позицию - массив с широтой и долготой
-    // и сообщение, отображаемое над маркером (tooltip)
-    $(function () {
-        let map = null
-        let marker = null
-
-        if (map === null) {
-            // второй аргумент, принимаемый методом setView - это масштаб (zoom)
-            map = L.map('map').setView([59.9386, 30.3141], 10)
-        } else return
-
-        // что-то типа рекламы
-        // без этого карта работать не будет
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution:
-                '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map)
-
-        // добавляем маркер с сообщением
-        L.marker([59.9386, 30.3141]).addTo(map).bindPopup("tooltip").openPopup();
-    });
-</script>
 <div th:replace="~{fragments/footer.html :: footer}"></div>
 </body>
 </html>

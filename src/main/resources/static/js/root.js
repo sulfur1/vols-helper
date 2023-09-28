@@ -1,4 +1,6 @@
 let form;
+let show = null;
+let draw = null;
 function makeEditable(datatableOpts) {
     ctx.dataTableApi = $("#datatable").DataTable(
         {
@@ -42,29 +44,45 @@ function renderEditBtn(data, type, row) {
 function updateRow(id) {
 
 }
-/*function renderMap() {
-    let map = getMap([59.9386, 30.3141], "Tol")
-    $(".modal-body").append(map);
-}*/
+
 function modal() {
     let m = new bootstrap.Modal($("#modalMap"));
     m.show();
 }
 
+function addLine() {
+    let coord;
+    let lat;
+    let lng;
+    let newLine = new Line("1", 120, 15.4, "from", "to");
+    if (draw === null) {
+        $("#addMap").append("<div id=\"map\"></div>");
+        let idMap = document.getElementById('map');
+        draw = getMap([59.9386, 30.3141], "dsd", idMap, draw);
+        draw.on('click', function(e) {
+            coord = e.latlng;
+            lat = coord.lat;
+            lng = coord.lng;
+            console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
+        });
+    }
+    new bootstrap.Modal($("#modalAddMap")).show();
+}
+
 /**
  * Показ карты в модальном окне
  */
-let map = null;
-let idMap = null;
+
 
 function showMap() {
     let coord;
     let lat;
     let lng;
-    if (map === null) {
-        $(".modal-body").append("<div id=\"show_map\"></div>");
-        getMap([59.9386, 30.3141], "dsd");
-        map.on('click', function(e){
+    if (show === null) {
+        $("#showMap").append("<div id=\"map\"></div>");
+        let idMap = document.getElementById('map');
+        show = getMap([59.9386, 30.3141], "dsd", idMap, show);
+        show.on('click', function(e){
             coord = e.latlng;
             lat = coord.lat;
             lng = coord.lng;
@@ -78,11 +96,11 @@ function showMap() {
  * Создание карты
  * @param position - позиция при создании.
  * @param tooltip - название метки.
+ * @param idMap
  */
-function getMap(position, tooltip) {
+function getMap(position, tooltip, idMap, map) {
     // если карта не была инициализирована
     if (map === null) {
-        idMap = document.getElementById('show_map');
         // второй аргумент, принимаемый методом setView - это масштаб (zoom)
         map = L.map(idMap).setView(position, 10)
     } else return
@@ -100,4 +118,6 @@ function getMap(position, tooltip) {
     });
 
     resizeObserver.observe(idMap);
+
+    return map;
 }

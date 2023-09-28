@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ai.polyakov</groupId>
-    <artifactId>vols-helper</artifactId>
+    <artifactId>volshelper</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>vols-helper</name>
-    <description>vols-helper</description>
+    <name>volshelper</name>
+    <description>Web-source created for help network-engineer</description>
     <properties>
         <!--Java version-->
         <java.version>20</java.version>
