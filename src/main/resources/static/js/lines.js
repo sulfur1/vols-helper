@@ -1,7 +1,7 @@
-const ajaxLinesUrl = "/rest/admin/lines"
+const ajaxLineUrl = "rest/admin/line"
 
 const ctx = {
-    ajaxUrl: ajaxLinesUrl
+    ajaxUrl: ajaxLineUrl
 }
 
 $(function () {

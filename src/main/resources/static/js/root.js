@@ -1,6 +1,4 @@
-let form;
 let show = null;
-let draw = null;
 function makeEditable(datatableOpts) {
     ctx.dataTableApi = $("#datatable").DataTable(
         {
@@ -13,7 +11,11 @@ function makeEditable(datatableOpts) {
             "info": true
         }
     );
-    /*$("#modal").on('shown', renderMap);*/
+
+    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
+        failNoty(jqXHR);
+    });
+
 }
 
 /**
@@ -50,23 +52,16 @@ function modal() {
     m.show();
 }
 
-function addLine() {
-    let coord;
-    let lat;
-    let lng;
-    let newLine = new Line("1", 120, 15.4, "from", "to");
-    if (draw === null) {
-        $("#addMap").append("<div id=\"map\"></div>");
-        let idMap = document.getElementById('map');
-        draw = getMap([59.9386, 30.3141], "dsd", idMap, draw);
-        draw.on('click', function(e) {
-            coord = e.latlng;
-            lat = coord.lat;
-            lng = coord.lng;
-            console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
-        });
-    }
-    new bootstrap.Modal($("#modalAddMap")).show();
+
+function save() {
+    document.getElementById("coordinates").value = JSON.stringify(line._coordinates);
+    $.ajax({
+        type: "POST",
+        url: "/admin/line",
+        data: getForm().serialize()
+    }).done(function () {
+
+    });
 }
 
 /**
@@ -98,7 +93,7 @@ function showMap() {
  * @param tooltip - название метки.
  * @param idMap
  */
-function getMap(position, tooltip, idMap, map) {
+function getMap(position, idMap, map) {
     // если карта не была инициализирована
     if (map === null) {
         // второй аргумент, принимаемый методом setView - это масштаб (zoom)
@@ -111,8 +106,8 @@ function getMap(position, tooltip, idMap, map) {
             '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map)
 
-    // resize
-    L.marker(position).addTo(map).bindPopup(tooltip).openPopup()
+    /*// resize
+    L.marker(position).addTo(map).bindPopup(tooltip).openPopup()*/
     const resizeObserver = new ResizeObserver(() => {
         map.invalidateSize();
     });
@@ -120,4 +115,24 @@ function getMap(position, tooltip, idMap, map) {
     resizeObserver.observe(idMap);
 
     return map;
+}
+let failedNote;
+
+function closeNoty() {
+    if (failedNote) {
+        failedNote.close();
+        failedNote = undefined;
+    }
+}
+
+function failNoty(jqXHR) {
+    closeNoty();
+    let errorInfo = jqXHR.responseJSON;
+    failedNote = new Noty({
+        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + ": " + jqXHR.status +
+            "<br>" + errorInfo.type + "<br>" + errorInfo.details.join("<br>"),
+        type: "error",
+        layout: "bottomRight"
+    });
+    failedNote.show()
 }

@@ -1,78 +1,82 @@
+let polyLine = null;
+let line = null;
+let draw = null;
+let form = null;
+
+// undo event of keypress 'ctrl + z'
+document.onkeydown = KeyPress;
+
+$(function () {
+    form = $('#addLine');
+    line = new Line();
+});
 
 class Line {
-
-    constructor(name, length, diameter, from, to) {
-        // вызывает сеттер
-        this._length = length;
-        this._diameter = diameter;
-        this._from = from;
-        this._to = to;
-        this._name = name;
-        this._lineGeoJson = {
-            "type": "Feature",
-            "properties": {
-                "name": this._name,
-                "amenity": "Baseball Stadium",
-                "popupContent": "This is where the Rockies play!"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": []
-            }
-        };
+    constructor() {
+        this._coordinates = [];
     }
 
-    get name() {
-        return this._name;
+    get coordinates() {
+        return this._coordinates;
     }
 
-    set name(value) {
-        this._name = value;
-    }
-
-    get length() {
-        return this._length;
-    }
-
-    set length(value) {
-        this._length = value;
-    }
-
-    get diameter() {
-        return this._diameter;
-    }
-
-    set diameter(value) {
-        this._diameter = value;
-    }
-
-    get from() {
-        return this._from;
-    }
-
-    set from(value) {
-        this._from = value;
-    }
-
-    get to() {
-        return this._to;
-    }
-
-    set to(value) {
-        this._to = value;
-    }
-
-    get lineGeoJson() {
-        return this._lineGeoJson;
-    }
-
-    set lineGeoJson(value) {
-        this._lineGeoJson = value;
+    set coordinates(value) {
+        this._coordinates = value;
     }
 }
 
-function parseCoordinates(lineGeoJson) {
-    let arr = JSON.parse(lineGeoJson).lineGeoJson;
-
-    return arr;
+function openMap() {
+    if (draw === null) {
+        $("#addMap").append("<div id=\"map\"></div>");
+        let idMap = document.getElementById('map');
+        draw = getMap([59.9386, 30.3141], idMap, draw);
+    }
+    new bootstrap.Modal($("#modalAddMap")).show();
 }
+
+function closeMap() {
+    /*draw = null;*/
+}
+function pencil() {
+    L.DomUtil.addClass(draw._container, 'crosshair-cursor-enabled');
+    polyLine = L.polyline(line._coordinates, {color: 'red'}).addTo(draw);
+    draw.on('click', function (e) {
+        let coord = e.latlng;
+        let lat = coord.lat;
+        let lng = coord.lng;
+        if (line._coordinates.length < 1) {
+            pushCoordinates(lat, lng, line);
+        } else {
+            pushCoordinates(lat, lng, line);
+            redraw();
+
+// zoom the map to the polyline
+            //draw.fitBounds(polyline.getBounds());
+        }
+    });
+}
+
+function redraw() {
+    polyLine.setLatLngs(line._coordinates);
+}
+
+function undo() {
+    if (line._coordinates.length > 0) {
+        line._coordinates.pop();
+        redraw();
+    }
+}
+function KeyPress(e) {
+    let evtobj = window.event? event : e
+    if (evtobj.keyCode === 90 && evtobj.ctrlKey) undo();
+}
+function pushCoordinates(lat, lng, line) {
+    let arr = line._coordinates;
+    arr.push([lat, lng]);
+    line._coordinates = arr;
+    return line;
+}
+function getForm() {
+    return form;
+}
+

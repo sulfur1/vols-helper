@@ -20,40 +20,51 @@
 <div th:replace="~{fragments/header.html}"></div>
 
 <div class="container">
-    <form action="#" th:action="@{/line}" method="post">
+    <form id="addLine">
         <div class="form-group">
-            <label for="name">Название линии</label>
-            <input type="text" class="form-control" id="name" placeholder="Введите название линии">
+            <label for="title">Название линии</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Введите название линии" autocomplete="off">
         </div>
         <div class="form-group">
             <label for="length">Длина</label>
-            <input type="text" class="form-control" id="length" placeholder="Введите расстояние линии">
+            <input name="length" type="number" class="form-control" id="length" placeholder="Введите расстояние линии">
         </div>
         <div class="form-group">
             <label for="diameter">Диаметр кабеля</label>
-            <input type="text" class="form-control" id="diameter" placeholder="Введите диаметр кабеля">
+            <input name="diameter" type="number" class="form-control" id="diameter" placeholder="Введите диаметр кабеля">
         </div>
         <div class="form-group">
             <label for="from">Откуда</label>
-            <input type="text" class="form-control" id="from" placeholder="Откуда начинается линия">
+            <input name="from" type="text" class="form-control" id="from" placeholder="Откуда начинается линия">
         </div>
         <div class="form-group">
             <label for="to">Куда</label>
-            <input type="text" class="form-control" id="to" placeholder="Где заканчивается">
+            <input name="to" type="text" class="form-control" id="to" placeholder="Где заканчивается">
         </div>
         <br>
-        <button type="button" class="btn btn-secondary" onclick="addLine()">Линия</button>
-        <br>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group">
+            <label for="coordinates">Координаты</label>
+            <input name="coordinates" type="text" class="form-control" id="coordinates" >
+        </div>
     </form>
+    <br>
+    <button type="button" class="btn btn-secondary" onclick="openMap()">Линия</button>
+    <br>
+    <br>
+    <button type="button" class="btn btn-primary" onclick="save()">Submit</button>
 </div>
 <br>
 <div class="modal fade" id="modalAddMap" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">ВОЛС</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <!--<h5 class="modal-title" id="modalLabel">ВОЛС</h5>-->
+                <ul class="nav nav-pills gx-10">
+                    <li class="nav-item"><a onclick="undo()" type="button" class="nav-link">Отменить последнее действие</a></li>
+                    <li class="nav-item"><a onclick="pencil()" type="button" class="nav-link">Рисовать</a></li>
+                    <li class="nav-item"><a onclick="" type="button" class="nav-link">Выбрать</a></li>
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeMap()"></button>
             </div>
             <div id="addMap" class="modal-body"></div>
             <!--<div class="modal-footer">
