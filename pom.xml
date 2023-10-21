@@ -84,11 +84,11 @@
                     <groupId>org.webjars</groupId>
                     <artifactId>jquery</artifactId>
                 </exclusion>
-                <exclusion>
-                    <!--                https://getbootstrap.com/docs/4.5/components/popovers         -->
+                <!--<exclusion>
+                    &lt;!&ndash;                https://getbootstrap.com/docs/4.5/components/popovers         &ndash;&gt;
                     <groupId>org.webjars</groupId>
                     <artifactId>popper.js</artifactId>
-                </exclusion>
+                </exclusion>-->
             </exclusions>
         </dependency>
         <dependency>
