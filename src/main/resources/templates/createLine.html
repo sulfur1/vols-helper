@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{fragments/head.html :: head}"></div>
+<body>
+<link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""
+/>
+<script
+        src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin="" defer></script>
+<script type="text/javascript" src="/js/map/createoreditline.js" defer></script>
+<script type="text/javascript" src="/js/map/leaficons.js" defer></script>
+<script type="text/javascript" src="/js/root.js" defer></script>
+
+<div th:replace="~{fragments/header.html}"></div>
+<h3 class="text-center">Создание линии</h3>
+<div class="container">
+    <form id="addLine">
+        <div class="form-group">
+            <label for="title">Название линии</label>
+            <input name="title" type="text" class="form-control" id="title" placeholder="Введите название линии" >
+        </div>
+        <div class="form-group">
+            <label for="length">Длина, м</label>
+            <input name="length" type="number" class="form-control" id="length" placeholder="Введите расстояние линии" >
+        </div>
+        <div class="form-group">
+            <label for="diameter">Диаметр кабеля</label>
+            <input name="diameter" type="text" class="form-control" id="diameter" placeholder="Введите диаметр кабеля" >
+        </div>
+        <div class="form-group">
+            <label for="start_line">Начало</label>
+            <input name="start_line" type="text" class="form-control" id="start_line" placeholder="Откуда начинается линия" >
+        </div>
+        <div class="form-group">
+            <label for="end_line">Конец</label>
+            <input name="end_line" type="text" class="form-control" id="end_line" placeholder="Где заканчивается" >
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="coordinates" hidden>Координаты</label>
+            <input name="coordinates" type="text" class="form-control" id="coordinates" hidden>
+        </div>
+    </form>
+    <br>
+    <button type="button" class="btn btn-secondary" onclick="openMap()">Линия</button>
+    <br>
+    <br>
+    <button type="button" class="btn btn-primary" onclick="save()">Submit</button>
+</div>
+<br>
+<div class="modal fade" id="modalAddMap" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<h5 class="modal-title" id="modalLabel">ВОЛС</h5>-->
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group me-2" role="group" >
+                        <button type="button" class="btn btn-secondary " onclick="undo()">Отменить</button>
+                    </div>
+                    <div class="btn-group me-2" role="group">
+                        <button type="button" class="btn btn-secondary" onclick="pencil()">
+                            Рисовать
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-secondary dropdown-toggle dropdown-toggle-split " data-bs-toggle="dropdown" aria-expanded="false" ></button>
+                        <ul class="dropdown-menu" >
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radioDefault" id="radioBase" checked>
+                                    <label class="form-check-label" for="radioBase">
+                                        Координата
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radioDefault" id="radioCoupling" >
+                                    <label class="form-check-label" for="radioCoupling">
+                                        Муфта
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group me-2" role="group" >
+                        <button type="button" class="btn btn-secondary" onclick="select()">Выбрать</button>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="addMap" class="modal-body"></div>
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>-->
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer.html :: footer}"></div>
+</body>
+</html>

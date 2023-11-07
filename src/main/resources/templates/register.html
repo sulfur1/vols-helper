@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{fragments/head.html :: head}"></div>
+
+<body>
+<div th:replace="~{fragments/header.html}"></div>
+<div class="container">
+    <section class="pb-4">
+        <div>
+            <section class="w-100 p-4 d-flex justify-content-center pb-4">
+                <form th:action="@{/register}" style="width: 22rem;" th:object="${user}" method="POST" enctype="utf8">
+                    <!--<div>
+                        <label>Username</label>
+                        <input th:field="*{username}"/>
+                        <p th:each="error: ${#fields.errors('username')}"
+                           th:text="${error}">Validation error</p>
+                    </div>-->
+                    <div class="form-outline mb-4">
+                        <input type="text" id="regUsername" class="form-control" name="username" th:field="*{username}"/>
+                        <p th:each="error: ${#fields.errors('username')}"
+                           th:text="${error}">Validation error</p>
+                        <label class="form-label" for="regUsername" style="margin-left: 0px;">Username</label>
+                        <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 88px;"></div><div class="form-notch-trailing"></div></div></div>
+                    <!--<div>
+                        <label>Email</label>
+                        <input type="email" th:field="*{email}"/>
+                        <p th:each="error : ${#fields.errors('email')}"
+                           th:text="${error}">Validation error</p>
+                    </div>-->
+                    <div class="form-outline mb-4">
+                        <input type="email" id="regEmail" class="form-control" name="email" th:field="*{email}"/>
+                        <p th:each="error : ${#fields.errors('email')}"
+                           th:text="${error}">Validation error</p>
+                        <label class="form-label" for="regEmail" style="margin-left: 0px;">Email</label>
+                        <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 88px;"></div><div class="form-notch-trailing"></div></div>
+                    </div>
+                    <!--<div>
+                        <label>Пароль</label>
+                        <input type="password" th:field="*{password}"/>
+                        <p th:each="error : ${#fields.errors('password')}"
+                           th:text="${error}">Validation error</p>
+                    </div>-->
+                    <div class="form-outline mb-4">
+                        <input type="password" id="regPassword" class="form-control" name="password" th:field="*{password}"/>
+                        <p th:each="error : ${#fields.errors('password')}"
+                           th:text="${error}">Validation error</p>
+                        <label class="form-label" for="regPassword" style="margin-left: 0px;">Пароль</label>
+                        <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 64px;"></div><div class="form-notch-trailing"></div></div>
+                    </div>
+                    <!--<div>
+                        <label>Подтвердите пароль</label>
+                        <input type="password" th:field="*{matchingPassword}"/>
+                    </div>-->
+                    <div class="form-outline mb-4">
+                        <input type="password" id="regConfirmPassword" class="form-control" name="matchingPassword" th:field="*{matchingPassword}"/>
+                        <p th:each="error : ${#fields.errors('matchingPassword')}"
+                           th:text="${error}">Validation error</p>
+                        <label class="form-label" for="regConfirmPassword" style="margin-left: 0px;">Подтвердите пароль</label>
+                        <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 64px;"></div><div class="form-notch-trailing"></div></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mb-4">Регистрация</button>
+                    <a th:href="@{/login}" >Войти</a>
+                </form>
+
+            </section>
+        </div>
+    </section>
+</div>
+<div th:replace="~{fragments/footer.html :: footer}"></div>
+</body>
+</html>

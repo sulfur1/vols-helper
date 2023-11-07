@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html   xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:th="http://www.thymeleaf.org">
-<div th:replace="~{fragments/head.html :: head}"></div>
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:insert="~{fragments/head.html :: head}"></div>
 <body>
-<div th:replace="~{fragments/header.html}"></div>
-<div th:replace="~{fragments/footer.html :: footer}"></div>
+<div th:insert="~{fragments/header.html}"></div>
+<div th:insert="~{fragments/footer.html :: footer}"></div>
 </body>
 </html>

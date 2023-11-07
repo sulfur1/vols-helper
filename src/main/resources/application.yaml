@@ -1,5 +1,8 @@
 #  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 spring:
+  sql:
+    init:
+      mode: always
   jpa:
     show-sql: true
     open-in-view: false
@@ -15,8 +18,9 @@ spring:
   datasource:
     # Postgres
     url: jdbc:postgresql://localhost:5432/vols_helper
-    username: user
-    password: password
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
   # thymeleaf
   thymeleaf:
     cache: false

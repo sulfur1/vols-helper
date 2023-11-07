@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:insert="~{fragments/head.html :: head}"></div>
+
 <body>
-<div th:replace="fragments/header"></div>
+<div th:insert="~{fragments/header.html}"></div>
 <div class="container">
   <section class="pb-4">
     <div>
       <section class="w-100 p-4 d-flex justify-content-center pb-4">
-        <form style="width: 22rem;">
+        <div th:if="${param.error}">
+          Invalid username and password.</div>
+        <div th:if="${param.logout}">
+          You have been logged out.</div>
+        <form style="width: 22rem;" th:action="@{login}" method="post">
           <!-- Email input -->
           <div class="form-outline mb-4">
-            <input type="email" id="form2Example1" class="form-control">
+            <input type="email" id="form2Example1" class="form-control" name="username" placeholder="Email">
             <label class="form-label" for="form2Example1" style="margin-left: 0px;">Email address</label>
           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 88px;"></div><div class="form-notch-trailing"></div></div></div>
   
           <!-- Password input -->
           <div class="form-outline mb-4">
-            <input type="password" id="form2Example2" class="form-control">
+            <input type="password" id="form2Example2" class="form-control" name="password" placeholder="Password">
             <label class="form-label" for="form2Example2" style="margin-left: 0px;">Password</label>
           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 64px;"></div><div class="form-notch-trailing"></div></div></div>
   
@@ -42,7 +43,7 @@
           </div>
   
           <!-- Submit button -->
-          <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
+          <button type="submit" class="btn btn-primary btn-block mb-4">Вход</button>
   
           <!-- Register buttons -->
           <div class="text-center">
@@ -53,6 +54,6 @@
     </div>
   </section> 
 </div>
-<div th:replace="fragments/footer"></div>
+<div th:insert="~{fragments/footer.html :: footer}"></div>
 </body>
 </html>

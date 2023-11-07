@@ -1,6 +1,6 @@
-let show = null;
+let dataTableApi;
 function makeEditable(datatableOpts) {
-    ctx.dataTableApi = $("#datatable").DataTable(
+        dataTableApi = $("#datatable").DataTable(
         {
             ...datatableOpts, // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Spread_syntax
             "ajax": {
@@ -19,7 +19,7 @@ function makeEditable(datatableOpts) {
 }
 
 /**
- * Кнопка показа карты линии в таблице.
+ * Кнопка показа карты линии.
  * @param data
  * @param type
  * @param row
@@ -27,11 +27,23 @@ function makeEditable(datatableOpts) {
  */
 function renderMapBtn(data, type, row) {
     if (type === "display") {
-        return "<a onclick='showMap();'><span class='fa fa-map'></span></a>";
+        return "<a onclick='openMap(" + row.id + ");'><span class='fa fa-map'></span></a>";
     }
 }
 /**
- * Кнопка редактирования линии в таблице.
+ * Кнопка удаления линии.
+ * @param data
+ * @param type
+ * @param row
+ * @returns {string}
+ */
+function renderDeleteBtn(data, type, row) {
+    if (type === "display") {
+        return "<a onclick='deleteRow(" + row.id + ");'><span class='fa fa-close'></span></a>";
+    }
+}
+/**
+ * Кнопка редактирования линии.
  * @param data
  * @param type
  * @param row
@@ -39,59 +51,43 @@ function renderMapBtn(data, type, row) {
  */
 function renderEditBtn(data, type, row) {
     if (type === "display") {
-        return "<a onclick='updateRow(" + row.id + ");'><span class='fa fa-pencil'></span></a>";
+        return "<a type='button' href='/lines/" + row.id + "/update'><span class='fa fa-pencil'></span></a>";
     }
 }
-
-function updateRow(id) {
-
+function deleteRow(id) {
+    let result = confirm("Вы действительно хотите удалить эту линию?");
+    if (result) {
+        $.ajax({
+            type: "DELETE",
+            url: "/lines/" + id
+        }).done(successNoty);
+    }
 }
-
-function modal() {
-    let m = new bootstrap.Modal($("#modalMap"));
-    m.show();
-}
-
+/*function updateRow(id) {
+    let form = getForm();
+    form.find(":input").val("");
+    $.get("/lines/" + id, function (data) {
+        $.each(data, function (key, value) {
+            form.find("input[name='" + key + "']").val(value);
+        });
+    });
+}*/
 
 function save() {
-    document.getElementById("coordinates").value = JSON.stringify(line._coordinates);
+    let points = getLine()._points;
+    document.getElementById("coordinates").value = JSON.stringify(points);
     $.ajax({
         type: "POST",
-        url: "/admin/line",
+        url: "/lines",
         data: getForm().serialize()
-    }).done(function () {
-
-    });
-}
-
-/**
- * Показ карты в модальном окне
- */
-
-
-function showMap() {
-    let coord;
-    let lat;
-    let lng;
-    if (show === null) {
-        $("#showMap").append("<div id=\"map\"></div>");
-        let idMap = document.getElementById('map');
-        show = getMap([59.9386, 30.3141], "dsd", idMap, show);
-        show.on('click', function(e){
-            coord = e.latlng;
-            lat = coord.lat;
-            lng = coord.lng;
-            console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
-        });
-    }
-    modal();
+    }).done(successNoty);
 }
 
 /**
  * Создание карты
  * @param position - позиция при создании.
- * @param tooltip - название метки.
  * @param idMap
+ * @param map
  */
 function getMap(position, idMap, map) {
     // если карта не была инициализирована
@@ -117,7 +113,6 @@ function getMap(position, idMap, map) {
     return map;
 }
 let failedNote;
-
 function closeNoty() {
     if (failedNote) {
         failedNote.close();
@@ -125,6 +120,13 @@ function closeNoty() {
     }
 }
 
+function successNoty() {
+    new Noty({
+        text: "<span class='fa fa-lg fa-light fa-circle-check'></span>",
+        type: "success",
+        layout: "bottomRight"
+    }).show();
+}
 function failNoty(jqXHR) {
     closeNoty();
     let errorInfo = jqXHR.responseJSON;
@@ -134,5 +136,5 @@ function failNoty(jqXHR) {
         type: "error",
         layout: "bottomRight"
     });
-    failedNote.show()
+    failedNote.show();
 }

@@ -1,4 +1,4 @@
-const ajaxLineUrl = "rest/admin/line"
+const ajaxLineUrl = "/lines"
 
 const ctx = {
     ajaxUrl: ajaxLineUrl
@@ -8,7 +8,10 @@ $(function () {
     makeEditable({
        "columns": [
            {
-               "data": "name"
+               "data": "id"
+           },
+           {
+               "data": "title"
            },
            {
                "data": "length"
@@ -17,10 +20,13 @@ $(function () {
                "data": "diameter"
            },
            {
-               "data": "from"
+               "data": "startLine"
            },
            {
-               "data": "to"
+               "data": "endLine"
+           },
+           {
+               "data": "coordinates",
            },
            {
                "render": renderMapBtn,
@@ -31,7 +37,25 @@ $(function () {
                "render": renderEditBtn,
                "defaultContent": "",
                "orderable": false
+           },
+           {
+               "render": renderDeleteBtn,
+               "defaultContent": "",
+               "orderable": false
            }
-       ]
+       ],
+        "columnDefs": [
+            {
+                target: 6,
+                visible: false,
+                searchable: false
+            }
+        ],
+        "order": [
+            [
+                0,
+                "asc"
+            ]
+        ]
     });
 });

@@ -1,43 +1,42 @@
 package ai.polyakov.volshelper.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class Line {
-    private Integer id;
+@Entity
+@Table(name = "line", uniqueConstraints = @UniqueConstraint(columnNames = {"title"}))
+public class Line extends BaseEntity {
+    @NotBlank
+    @Column(name = "title")
     private String title;
-    private String length;
+    @Min(10)
+    @Column(name = "length")
+    private Integer length;
+    @NotBlank
+    @Column(name = "diameter")
     private String diameter;
-    private String from;
-    private String to;
+    @NotBlank
+    @Column(name = "start_line")
+    private String startLine;
+    @NotBlank
+    @Column(name = "end_line")
+    private String endLine;
+    @NotBlank
+    @Column(name = "coordinates")
     private String coordinates;
-
-    public Line() {
-    }
-    public Line(String title, String length, String diameter, String from, String to, String coordinates) {
-        this(null, title, length, diameter, from, to, coordinates);
-    }
-    public Line(Integer id, String title, String length, String diameter, String from, String to, String coordinates) {
-        this.id = id;
-        this.title = title;
-        this.length = length;
-        this.diameter = diameter;
-        this.from = from;
-        this.to = to;
-        this.coordinates = coordinates;
-    }
 
     @Override
     public String toString() {
         return "Line{" +
-                "name='" + title + '\'' +
-                ", length='" + length + '\'' +
-                ", diameter='" + diameter + '\'' +
-                ", from='" + from + '\'' +
-                ", to='" + to + '\'' +
-                ", coordinates='" + coordinates + '\'' +
-                '}';
+                ", title='" + title + '\'';
     }
 }
