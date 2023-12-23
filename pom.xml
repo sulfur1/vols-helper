@@ -116,6 +116,12 @@
             <artifactId>noty</artifactId>
             <version>${webjars-noty.version}</version>
         </dependency>
+        <!--Maps-->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>leaflet</artifactId>
+            <version>1.8.0</version>
+        </dependency>
         <!--JSON-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -131,12 +137,6 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>2.15.2</version>
-        </dependency>
-        <!--Maps-->
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>leaflet</artifactId>
-            <version>1.8.0</version>
         </dependency>
 
     </dependencies>
