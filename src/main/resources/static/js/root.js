@@ -27,7 +27,7 @@ function makeEditable(datatableOpts) {
  */
 function renderMapBtn(data, type, row) {
     if (type === "display") {
-        return "<a onclick='openMap(" + row.id + ");'><span class='fa fa-map'></span></a>";
+        return "<a type='button' onclick='openMap(" + row.id + ");'><span class='fa fa-map'></span></a>";
     }
 }
 /**
@@ -39,7 +39,7 @@ function renderMapBtn(data, type, row) {
  */
 function renderDeleteBtn(data, type, row) {
     if (type === "display") {
-        return "<a onclick='deleteRow(" + row.id + ");'><span class='fa fa-close'></span></a>";
+        return "<a type='button' onclick='deleteRow(" + row.id + ");'><span class='fa fa-close'></span></a>";
     }
 }
 /**
